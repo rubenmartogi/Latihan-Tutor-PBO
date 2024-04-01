@@ -1,0 +1,3 @@
+javac -d bin driver/*.java model/*.java
+
+java -cp bin driver.PaymentApp

@@ -10,12 +10,12 @@ public class PaymentApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Masukkan total pembayaran: ");
+        System.out.print("Enter total payment amount: ");
         double totalAmount = scanner.nextDouble();
 
-        System.out.print("Pilih metode pembayaran (0: Tunai, 1: Kartu): ");
+        System.out.print("Choose payment method (0: Cash, 1: Card): ");
         int paymentMethodIndex = scanner.nextInt();
-        
+
         PaymentMethod[] paymentMethods = PaymentMethod.values();
         if (paymentMethodIndex >= 0 && paymentMethodIndex < paymentMethods.length) {
             PaymentMethod paymentMethod = paymentMethods[paymentMethodIndex];
@@ -23,33 +23,33 @@ public class PaymentApp {
             Payment payment;
             if (paymentMethod == PaymentMethod.CASH) {
                 payment = new CashPayment(totalAmount);
-                System.out.print("Masukkan jumlah uang yang dibayarkan: ");
+                System.out.print("Enter the amount of money paid: ");
                 double paidAmount = scanner.nextDouble();
                 if (paidAmount >= totalAmount) {
                     double change = payment.calculateChange(paidAmount);
-                    System.out.println("Kembalian: " + change);
+                    System.out.println("Change: " + change);
                 } else {
                     double remainingAmount = totalAmount - paidAmount;
-                    System.out.println("Uang yang dibayarkan kurang. Silakan bayar tambahan sebesar: " + remainingAmount);
+                    System.out.println("The amount paid is insufficient. Please pay an additional: " + remainingAmount);
                 }
             } else if (paymentMethod == PaymentMethod.CARD) {
-                System.out.print("Masukkan saldo pada kartu Anda: ");
+                System.out.print("Enter the balance on your card: ");
                 double cardBalance = scanner.nextDouble();
                 if (cardBalance >= totalAmount) {
                     payment = new CardPayment(totalAmount, cardBalance);
                     double change = payment.calculateChange(cardBalance);
                     if (change >= 0) {
-                        System.out.println("Pembayaran berhasil dengan kartu.");
-                        System.out.println("Sisa saldo pada kartu Anda: " + ((CardPayment) payment).getBalance());
+                        System.out.println("Payment successful with card.");
+                        System.out.println("Remaining balance on your card: " + ((CardPayment) payment).getBalance());
                     } else {
-                        System.out.println("Maaf, saldo pada kartu Anda tidak mencukupi.");
+                        System.out.println("Sorry, insufficient balance on your card.");
                     }
                 } else {
-                    System.out.println("Maaf, saldo pada kartu Anda tidak mencukupi.");
+                    System.out.println("Sorry, insufficient balance on your card.");
                 }
             }
         } else {
-            System.out.println("Metode pembayaran tidak valid.");
+            System.out.println("Invalid payment method.");
         }
 
         scanner.close();
